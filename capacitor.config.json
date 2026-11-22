@@ -1,0 +1,8 @@
+{
+  "appId": "com.apsensix.ultimate",
+  "appName": "AP SENSIX",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}
