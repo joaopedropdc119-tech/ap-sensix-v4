@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090612">
+<title>AP SENSIX V4</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#090612;color:white;font-family:Arial,sans-serif}
+header{text-align:center;padding:28px 15px;background:#130b25;border-bottom:1px solid #8c35ff}
+.logo{font-size:30px;font-weight:900;color:#b66cff}
+.logo span{color:white}
+header p{color:#b9a7d0;font-size:12px}
+main{max-width:550px;margin:auto;padding:18px}
+.card{background:#160e27;border:1px solid #45216d;border-radius:15px;padding:18px;margin-bottom:16px}
+h2{font-size:17px;color:#c18aff;margin-top:0}
+label{display:block;margin:14px 0 7px;color:#d8c8eb;font-size:13px}
+select,input{width:100%;padding:13px;border-radius:9px;background:#090612;color:white;border:1px solid #7040a5}
+button{width:100%;padding:14px;border:0;border-radius:10px;background:linear-gradient(90deg,#7020d9,#ad49ff);color:white;font-weight:bold;margin-top:14px}
+.result{display:none;margin-top:15px;padding:15px;background:#0c0716;border-radius:10px;border:1px solid #963dff}
+.stat{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #38244e}
+small{color:#aa98bd}
+footer{text-align:center;color:#87759d;font-size:11px;padding:20px}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">AP <span>SENSIX</span></div>
+<p>V4 ULTIMATE • SENSIBILIDADE GAMER</p>
+</header>
+<main>
+<section class="card">
+<h2>⚡ Configuração automática</h2>
+<label>Escolha seu aparelho</label>
+<select id="device">
+<option>Celular</option>
+<option>Tablet</option>
+<option>PC</option>
+</select>
+<label>Marca do aparelho</label>
+<select id="brand">
+<option>Samsung</option>
+<option>Motorola</option>
+<option>Xiaomi</option>
+<option>Lenovo</option>
+<option>Apple</option>
+<option>Outra</option>
+</select>
+<label>Estilo de jogo</label>
+<select id="style">
+<option>Equilibrado</option>
+<option>Precisão</option>
+<option>Movimentação rápida</option>
+</select>
+<button onclick="generate()">GERAR SENSIBILIDADE</button>
+<div class="result" id="result">
+<h2>Seu perfil sugerido</h2>
+<div id="stats"></div>
+<small>Valores sugeridos para você testar e ajustar no jogo.</small>
+</div>
+</section>
+<section class="card">
+<h2>🎮 Configuração manual</h2>
+<div id="manual"></div>
+<button onclick="save()">SALVAR CONFIGURAÇÃO</button>
+<p id="saved" style="color:#bd8aff"></p>
+</section>
+<section class="card">
+<h2>ℹ️ Sobre o aplicativo</h2>
+<p>AP SENSIX V4 é uma ferramenta de sugestões e organização de sensibilidade. Não altera arquivos do jogo, não injeta códigos e não oferece mira automática.</p>
+</section>
+</main>
+<footer>AP SENSIX V4 • Projeto independente</footer>
+<script>
+const names=["Geral","Ponto vermelho","Mira 2x","Mira 4x","AWM","Olhadinha"];
+const manual=document.getElementById("manual");
+names.forEach(n=>{
+manual.innerHTML+=`<label>${n}: <span id="v${n}">100</span></label><input type="range" min="0" max="200" value="100" oninput="document.getElementById('v${n}').textContent=this.value">`;
+});
+function generate(){
+let base=document.getElementById("style").value;
+let values=base==="Precisão"?[85,80,75,65,40,70]:base==="Movimentação rápida"?[180,175,160,145,90,160]:[150,140,130,115,65,120];
+document.getElementById("stats").innerHTML=names.map((n,i)=>`<div class="stat"><span>${n}</span><b>${values[i]}</b></div>`).join("");
+document.getElementById("result").style.display="block";
+}
+function save(){
+let values=[...manual.querySelectorAll("input")].map(x=>x.value);
+localStorage.setItem("ap_sensix_profile",JSON.stringify(values));
+document.getElementById("saved").textContent="✓ Configuração salva neste aparelho!";
+}
+</script>
+</body>
+</html>
